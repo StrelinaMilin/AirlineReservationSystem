@@ -1,5 +1,7 @@
-﻿@model IEnumerable<AirlineReservationSystem.Models.FlightDetails>
-
+﻿@*@model IEnumerable<AirlineReservationSystem.Models.FlightDetails>*@
+@using static AirlineReservationSystem.Models.PagedResultBase;
+@addTagHelper *, LazZiya.TagHelpers
+@model PagedResult<FlightDetails>
 @{
     ViewData["Title"] = "FlightDetails";
     Layout = "~/Views/Shared/UserLayout.cshtml";
@@ -45,48 +47,47 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FlightName)
+               FlightName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Source)
+              Source
+            </th>
+            <th>Destination
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Destination)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DepartureDate)
+               DepartureDate
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.DepartureTime)*@
-                <a class="btn-light" asp-action="FlightDetails" asp-route-sortOrder="@ViewData["TimeSortParam"]">@Html.DisplayNameFor(model => model.DepartureTime)</a>
+                <a class="btn-light" asp-action="FlightDetails" asp-route-sortOrder="@ViewData["TimeSortParam"]">DepartureTime</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AvailableEconomySeats)
+                AvailableEconomySeats
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EconomyClassFare)
+               EconomyClassFare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AvailableBusinessSeats)
+                AvailableBusinessSeats
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BusinessClassFare)
+               BusinessClassFare
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Count() == 0)
+        @if (Model.Results.Count() == 0)
         {
             <tr>
                 <td colspan="3" style="color:red">
-                    No Match Any Document
+                   No Flights
                 </td>
             </tr>
         }
         else
         {
-            @foreach (var item in Model)
+            @foreach (var item in Model.Results)
             {
                 <tr>
                     <td>
@@ -124,5 +125,9 @@
             }
         }
 
-        </tbody>
+    </tbody>
 </table>
+<paging page-no="@Model.CurrentPage"
+        page-size="@Model.PageSize"
+        total-records="@(Model.RowCount)">
+</paging>

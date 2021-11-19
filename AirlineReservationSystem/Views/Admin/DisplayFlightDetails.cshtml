@@ -1,5 +1,7 @@
-﻿@model IEnumerable<AirlineReservationSystem.Models.FlightDetails>
-
+﻿@*@model IEnumerable<AirlineReservationSystem.Models.FlightDetails>*@
+@using static AirlineReservationSystem.Models.PagedResultBase;
+@addTagHelper *, LazZiya.TagHelpers
+@model PagedResult<FlightDetails>
 @{
     ViewData["Title"] = "DisplayFlightDetails";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -52,38 +54,38 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FlightName)
+                FlightName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Source)
+                Source
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Destination)
+                Destination
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.DepartureDate)*@
-                <a class="btn-light" asp-action="DisplayFlightDetails" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.DepartureDate)</a>
+                <a class="btn-light" asp-action="DisplayFlightDetails" asp-route-sortOrder="@ViewData["DateSortParm"]">DepartureDate</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DepartureTime)
+                DepartureTime
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AvailableEconomySeats)
+                AvailableEconomySeats
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EconomyClassFare)
+                EconomyClassFare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AvailableBusinessSeats)
+                AvailableBusinessSeats
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BusinessClassFare)
+                BusinessClassFare
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Count() == 0)
+        @if (Model.Results.Count() == 0)
         {
             <tr>
                 <td colspan="3" style="color:red">
@@ -93,41 +95,47 @@
         }
         else
         {
-        foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FlightName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Source)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Destination)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartureDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartureTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AvailableEconomySeats)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EconomyClassFare)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AvailableBusinessSeats)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BusinessClassFare)
-                </td>
-                <td>
-                    <a class="btn btn-outline-primary" asp-action="EditFlightDetails" asp-route-id="@item.Detailsid">Edit</a> |
-                    <a class="btn btn-danger text-light" asp-action="DeleteFlightDetails" asp-route-id="@item.Detailsid">Delete</a>
-                </td>
-            </tr>
-        }}
+            foreach (var item in Model.Results)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Source)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Destination)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartureDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartureTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AvailableEconomySeats)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EconomyClassFare)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AvailableBusinessSeats)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BusinessClassFare)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" asp-action="EditFlightDetails" asp-route-id="@item.Detailsid">Edit</a> |
+                        <a class="btn btn-danger text-light" asp-action="DeleteFlightDetails" asp-route-id="@item.Detailsid">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>
+
+<paging page-no="@Model.CurrentPage"
+        page-size="@Model.PageSize"
+        total-records="@(Model.RowCount)">
+</paging>

@@ -68,7 +68,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepatureDate" class="control-label"></label>
-                <input asp-for="DepatureDate" class="form-control" />
+                <input onclick="func()" id="dates" asp-for="DepatureDate" class="form-control" />
                 <span asp-validation-for="DepatureDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -86,4 +86,8 @@
 <div>
     <a class="btn btn-dark" asp-action="DisplayFlightDetails">Back</a>
 </div>
-
+<script>
+    function func() {
+        document.getElementById("dates").min = new Date().getFullYear() + "-" + parseInt(new Date().getMonth() + 1) + "-" + new Date().getDate()
+    }
+</script>

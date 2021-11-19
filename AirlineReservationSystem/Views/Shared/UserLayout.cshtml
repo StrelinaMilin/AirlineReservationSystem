@@ -28,11 +28,13 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Signup" asp-action="Login">LogOut</a>
                         </li>
 
+
                     </ul>
                     @if (TempData["Name"] != null)
                     {
-                    <p style="float:left" class="nav-link text-light">Hi @TempData["Name"].ToString()</p>
+                        <p style="float:left" class="nav-link text-light">Hi @TempData["Name"].ToString()</p>
                     }
+                    
                 </div>
             </div>
         </nav>

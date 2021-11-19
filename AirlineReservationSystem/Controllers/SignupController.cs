@@ -18,6 +18,7 @@ namespace AirlineReservationSystem.Controllers
         {
             return View();
         }
+        #region Register
         public IActionResult Register()
         {
             return View();
@@ -41,6 +42,8 @@ namespace AirlineReservationSystem.Controllers
                 return View();
             }
         }
+        #endregion
+        #region Login
         public IActionResult Login()
         {
             return View();
@@ -79,7 +82,7 @@ namespace AirlineReservationSystem.Controllers
             }
             return View();
         }
-       
+        #endregion
 
 
     }

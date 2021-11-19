@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using static AirlineReservationSystem.Models.PagedResultBase;
 
 namespace AirlineReservationSystem.Controllers
 {
@@ -19,6 +19,7 @@ namespace AirlineReservationSystem.Controllers
         {
             return View();
         }
+        #region Add Flight
         public IActionResult AddFlight()
         {
             return View();
@@ -42,17 +43,18 @@ namespace AirlineReservationSystem.Controllers
                 return View();
             }
         }
-        
-        public IActionResult DisplayFlight(string searching)
+        #endregion
+        #region Display Flight
+        public IActionResult DisplayFlight(string searching, int p = 1)
         {
             try
             {
                 
-                ViewBag.CurrentFilter = searching;
-                var FlightMaster = db.TblFlightMasters.Where(x => x.Fname.Contains(searching) || searching == null);
+                //ViewBag.CurrentFilter = searching;
+                PagedResult<TblFlightMaster>  FlightMaster = db.TblFlightMasters.Where(x => x.Fname.Contains(searching) || searching == null).GetPaged(p, 3);
                 
-
-                return View(FlightMaster.ToList());
+               
+                return View(FlightMaster);
             }
             catch(Exception e)
             {
@@ -60,10 +62,11 @@ namespace AirlineReservationSystem.Controllers
                 return View();
             }
         }
-        public IActionResult DisplayFlightDetails(string searching,string sortOrder)
+        public IActionResult DisplayFlightDetails(string searching,string sortOrder, int p=1)
         {
+            
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            List<TblFlightDetail> tblFlightDetails = new List<TblFlightDetail>();
+            
             List<FlightDetails> flightDetails1 = new List<FlightDetails>();
             try
             {
@@ -80,7 +83,7 @@ namespace AirlineReservationSystem.Controllers
                         tblFlightDetail = tblFlightDetail.OrderByDescending(s => s.DepatureDate);
                         break;
                 }
-                tblFlightDetails = tblFlightDetail.ToList();
+                List<TblFlightDetail> tblFlightDetails = tblFlightDetail.ToList();
                 
                 foreach (var item in tblFlightDetails)
                 {
@@ -96,9 +99,13 @@ namespace AirlineReservationSystem.Controllers
                     flightDetails.EconomyClassFare = item.EconomyclassFare;
                     flightDetails.AvailableBusinessSeats = item.AvailableBusinessSeats;
                     flightDetails.BusinessClassFare = item.BusinessclassFare;
+                   
                     flightDetails1.Add(flightDetails);
                 }
-                return View(flightDetails1);
+                PagedResult<FlightDetails> pagedResult = (PagedResult<FlightDetails>)flightDetails1.AsQueryable().GetPaged(p, 3);
+
+
+                return View(pagedResult);
             }
             catch(Exception e)
             {
@@ -107,7 +114,9 @@ namespace AirlineReservationSystem.Controllers
             }
 
         }
-        public IActionResult GetFlightDetails(int id)
+        #endregion
+        #region Get Flight Details By id
+        public IActionResult GetFlightDetails(int id, int p=1)
         {
             List<TblFlightDetail> tblFlightDetails = new List<TblFlightDetail>();
             try
@@ -119,7 +128,9 @@ namespace AirlineReservationSystem.Controllers
                     TblFlightDetail tblFlightDetail = db.TblFlightDetails.Find(item);
                     tblFlightDetails.Add(tblFlightDetail);
                 }
-                return View(tblFlightDetails);
+                PagedResult<TblFlightDetail> pagedResult = (PagedResult<TblFlightDetail>)tblFlightDetails.AsQueryable().GetPaged(p, 3);
+                return View(pagedResult);
+
             }
             catch(Exception e)
             {
@@ -127,6 +138,8 @@ namespace AirlineReservationSystem.Controllers
                 return View(tblFlightDetails);
             }
         }
+        #endregion
+        #region Add/Delete/Edit Flight Details
         public IActionResult AddFlightDetails(int id)
         {
             ViewBag.Flightid = id;
@@ -174,7 +187,7 @@ namespace AirlineReservationSystem.Controllers
                     db.SaveChanges();
                     return RedirectToAction("DisplayFlightDetails");
                 }
-                catch(Exception e)
+                catch
                 {
                     ViewBag.msg = "An error occurred while processing your request!!!!";
                     return View();
@@ -240,7 +253,9 @@ namespace AirlineReservationSystem.Controllers
                 return RedirectToAction("DisplayFlight");
             }
         }
-        public IActionResult GetTicketDetails(int id)
+        #endregion
+        #region Get Details By id
+        public IActionResult GetTicketDetails(int id, int p=1)
         {
             List<Tblticket> tbltickets = new List<Tblticket>();
             try
@@ -256,7 +271,8 @@ namespace AirlineReservationSystem.Controllers
                     tblticket.User = tblUser;
                     tbltickets.Add(tblticket);
                 }
-                return View(tbltickets);
+                PagedResult<Tblticket> pagedResult = (PagedResult<Tblticket>)tbltickets.AsQueryable().GetPaged(p, 3);
+                return View(pagedResult);
             }
             catch(Exception e)
             {
@@ -264,6 +280,8 @@ namespace AirlineReservationSystem.Controllers
                 return View(tbltickets);
             }
         }
+       
+       
         public IActionResult GetPassengerDetails(int id)
         {
             List<TblPassenger> tblPassengers = new List<TblPassenger>();
@@ -284,7 +302,9 @@ namespace AirlineReservationSystem.Controllers
                 return View(tblPassengers);
             }
         }
-        public IActionResult DisplayTicketDetails(string name,string fname)
+        #endregion
+        #region Display details
+        public IActionResult DisplayTicketDetails(string name,string fname, int p=1)
         {
             
             List<Tblticket> tbltickets = new List<Tblticket>();
@@ -325,7 +345,8 @@ namespace AirlineReservationSystem.Controllers
 
 
                 }
-                return View(tbltickets);
+                PagedResult<Tblticket> pagedResult = (PagedResult<Tblticket>)tbltickets.AsQueryable().GetPaged(p, 3);
+                return View(pagedResult);
             }
             catch(Exception e)
             {
@@ -334,19 +355,19 @@ namespace AirlineReservationSystem.Controllers
             }
 
         }
-        public IActionResult DisplayPassengerDetails(string fname, string date)
+        public IActionResult DisplayPassengerDetails(string fname, string date, int p=1)
         {
             List<TblPassenger> tblPassengers = new List<TblPassenger>();
             try
             {
 
                 //var passengerid = db.TblPassengers.Select(i => i.PassengerId).ToList();
-                var passengerid = (from p in db.TblPassengers
-                                 join d in db.TblFlightDetails on p.FlightDetailsId equals d.FlightDetailsId
+                var passengerid = (from tp in db.TblPassengers
+                                 join d in db.TblFlightDetails on tp.FlightDetailsId equals d.FlightDetailsId
                                  join m in db.TblFlightMasters
                                  on d.Flightid equals m.Flightid
                                  where (m.Fname.Contains(fname) || fname == null) && (d.DepatureDate.ToString().Substring(0, 10).Contains(date) || date == null)
-                                 select p.PassengerId).ToList();
+                                 select tp.PassengerId).ToList();
                 
                 foreach (var item in passengerid)
                 {
@@ -374,7 +395,8 @@ namespace AirlineReservationSystem.Controllers
                     }
 
                 }
-                return View(tblPassengers);
+                PagedResult<TblPassenger> pagedResult = (PagedResult<TblPassenger>)tblPassengers.AsQueryable().GetPaged(p, 3);
+                return View(pagedResult);
             }
             catch(Exception e)
             {
@@ -382,6 +404,7 @@ namespace AirlineReservationSystem.Controllers
                 return View(tblPassengers);
             }
         }
+        #endregion
 
     }
 }

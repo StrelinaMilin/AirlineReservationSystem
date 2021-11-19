@@ -1,5 +1,7 @@
-﻿@model IEnumerable<AirlineReservationSystem.Models.Tblticket>
-
+﻿@*@model IEnumerable<AirlineReservationSystem.Models.Tblticket>*@
+@using static AirlineReservationSystem.Models.PagedResultBase;
+@addTagHelper *, LazZiya.TagHelpers
+@model PagedResult<Tblticket>
 @{
     ViewData["Title"] = "GetTicketDetails";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -19,6 +21,7 @@
         font-style: oblique;
         text-shadow: 4px 2px #808080;
     }
+
     th {
         background-color: #333333;
         color: white;
@@ -35,28 +38,28 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User.FirstName)
+               FirstName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Classtype)
+               Classtype
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalSeatsReserved)
+               SeatsReserved
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+               TicketType
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReturnDate)
+               ReturnDate
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalAmount)
+                Amount
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Results)
         {
             <tr>
                 <td>
@@ -84,3 +87,7 @@
         }
     </tbody>
 </table>
+<paging page-no="@Model.CurrentPage"
+        page-size="@Model.PageSize"
+        total-records="@(Model.RowCount)">
+</paging>

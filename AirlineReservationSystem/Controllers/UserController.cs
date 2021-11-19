@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using static AirlineReservationSystem.Models.PagedResultBase;
 
 namespace AirlineReservationSystem.Controllers
 {
@@ -20,6 +21,7 @@ namespace AirlineReservationSystem.Controllers
         {
             return View();
         }
+        #region Display Reserved Flight
         public IActionResult ReservedFlight(string sortOrder)
         {
             ViewData["AmountSortParam"] = string.IsNullOrEmpty(sortOrder) ? "Amount_desc" : "";
@@ -87,6 +89,8 @@ namespace AirlineReservationSystem.Controllers
                 return View(reservedFlights);
             }
         }
+        #endregion
+        #region Cancel Reserved Flight
         public IActionResult CancelFlight(int id)
         {
             try
@@ -125,11 +129,14 @@ namespace AirlineReservationSystem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("ReservedFlight");
             }
-            catch
+            catch(Exception e)
             {
+                ViewBag.msg = e.Message;
                 return RedirectToAction("ReservedFlight");
             }
         }
+        #endregion
+        #region Get Ticket Details By Id
         public IActionResult TicketDetails(int id)
         {
             List<Passenger> passengers = new List<Passenger>();
@@ -155,6 +162,8 @@ namespace AirlineReservationSystem.Controllers
                 return View(passengers);
             }
         }
+        #endregion
+        #region Search Flight
         public IActionResult SearchFlight()
         {
             return View();
@@ -163,10 +172,10 @@ namespace AirlineReservationSystem.Controllers
         public IActionResult SearchFlight(Flight flight)
         {
             TempData["Flight"] = JsonConvert.SerializeObject(flight);           
-            TempData.Keep();
+            //TempData.Keep();
             return RedirectToAction("FlightDetails");
         }
-        public IActionResult FlightDetails(string sortOrder, string fname)
+        public IActionResult FlightDetails(string sortOrder, string fname, int p=1)
         {            
             Flight flights= JsonConvert.DeserializeObject<Flight>((string)TempData["Flight"]);
             TempData.Keep();
@@ -219,7 +228,8 @@ namespace AirlineReservationSystem.Controllers
                         flightDetails.Add(flightDetail);
                     }
                 }
-                return View(flightDetails);
+                PagedResult<FlightDetails> pagedResult = (PagedResult<FlightDetails>)flightDetails.AsQueryable().GetPaged(p, 3);
+                return View(pagedResult);
             }
             catch(Exception e)
             {
@@ -228,6 +238,8 @@ namespace AirlineReservationSystem.Controllers
             }
 
         }
+        #endregion
+        #region Book Flight
         public IActionResult SelectFlight(int id)
         {
           
@@ -302,7 +314,8 @@ namespace AirlineReservationSystem.Controllers
                 return RedirectToAction("PassengerDetails");
             }
         }
-
+        #endregion
+        #region Passenger Details
         public IActionResult PassengerDetails()
         {
             int fid = (int)TempData["FlightdetailsId"];
@@ -357,6 +370,8 @@ namespace AirlineReservationSystem.Controllers
                 return View();
             }
         }
+        #endregion
+        #region Payment
         public IActionResult PaymentDetails()
         {
             Payment payment = new Payment();
@@ -377,6 +392,8 @@ namespace AirlineReservationSystem.Controllers
             }
             return View();
         }
+        #endregion
+        #region Ticket Download
         public IActionResult PaymentSuccessfull()
         {
             var FlightDetails = (from d in db.TblFlightDetails
@@ -417,11 +434,17 @@ namespace AirlineReservationSystem.Controllers
             
             return View(tickets);
         }
-        
+        #endregion
 
         public IActionResult Seats()
         {
             return View();
         }
+
+
+        
+         
     }
 }
+
+

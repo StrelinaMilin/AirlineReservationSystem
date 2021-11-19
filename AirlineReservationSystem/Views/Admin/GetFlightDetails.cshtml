@@ -1,5 +1,7 @@
-﻿@model IEnumerable<AirlineReservationSystem.Models.TblFlightDetail>
-
+﻿@*@model IEnumerable<AirlineReservationSystem.Models.TblFlightDetail>*@
+@using static AirlineReservationSystem.Models.PagedResultBase;
+@addTagHelper *, LazZiya.TagHelpers
+@model PagedResult<TblFlightDetail>
 @{
     ViewData["Title"] = "DisplayFlightDetails";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -18,6 +20,7 @@
         font-style: oblique;
         text-shadow: 4px 2px #808080;
     }
+
     th {
         background-color: #333333;
         color: white;
@@ -27,8 +30,9 @@
         background-color: azure;
         color: black;
     }
-    body{
-        background-size:inherit;
+
+    body {
+        background-size: inherit;
     }
 </style>
 <br />
@@ -41,34 +45,34 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Source)
+               Source
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Destination)
+               Destination
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AvailableEconomySeats)
+               AvailableEconomySeats
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AvailableBusinessSeats)
+               AvailableBusinessSeats
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EconomyclassFare)
+                EconomyclassFare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BusinessclassFare)
+                BusinessclassFare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DepatureDate)
+               DepatureDate
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DepatureTime)
+               DepatureTime
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Results)
         {
             <tr>
                 <td>
@@ -104,3 +108,7 @@
         }
     </tbody>
 </table>
+<paging page-no="@Model.CurrentPage"
+        page-size="@Model.PageSize"
+        total-records="@(Model.RowCount)">
+</paging>
