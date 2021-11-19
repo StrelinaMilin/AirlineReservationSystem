@@ -1,0 +1,101 @@
+﻿@model IEnumerable<AirlineReservationSystem.Models.TblFlightMaster>
+
+
+
+@{
+    ViewData["Title"] = "DisplayFlight";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Flight</h1>
+@if (@ViewBag.msg != null)
+{
+    <script type="text/javascript">alert('@ViewBag.msg');</script>
+}
+
+<br />
+<br />
+@using (Html.BeginForm("DisplayFlight", "Admin", FormMethod.Get))
+{
+    @Html.TextBox("searching")
+    <input class="btn-secondary" type="submit" value="search" />
+}
+<style>
+
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+
+    th {
+        background-color: #333333;
+        color: white;
+    }
+
+    td {
+        background-color: azure;
+        color: black;
+    }
+</style>
+<br />
+<p>
+    <a style="background-color:azure; float:right" asp-action="AddFlight">Add Flight</a>
+</p>
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Fname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EconomySeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BusinessSeats)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3" style="color:red">
+                    No Match Any Document
+                </td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EconomySeats)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BusinessSeats)
+                    </td>
+                    <td>
+                        @*<a asp-action="EditFlight" asp-route-id="@item.Flightid">Edit</a> |*@
+                        <a class="btn btn-outline-primary" asp-action="GetFlightDetails" asp-route-id="@item.Flightid">Details</a> |
+                        <a class="btn btn-danger text-light" asp-action="DeleteFlight" asp-route-id="@item.Flightid">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@*<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("DisplayFlight",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@

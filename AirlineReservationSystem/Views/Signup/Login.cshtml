@@ -1,0 +1,57 @@
+﻿@model AirlineReservationSystem.Models.Login
+
+@{
+    ViewData["Title"] = "Login";
+}
+<style>
+    h1 {
+        text-align: center;
+        text-transform: uppercase;
+        color: #000000;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+    label {
+        color: #000000;
+        font-weight: bold;
+        font-size:x-large;
+        
+        width: 150px;
+       
+    }
+</style>
+<div class="text-center">
+    <h1 class="display-4">Airline Reservation</h1>
+    <h1>Login</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <form asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div style="margin: 5% 30% 2px 30%" class="form-group">
+                        <label asp-for="Emailid" class="control-label"></label>
+                        <input asp-for="Emailid" type="email" class="form-control" />
+                        <span asp-validation-for="Emailid" class="text-danger"></span>
+                    </div>
+                    <div style="margin: 4px 30% 2px 30%" class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="text-danger" >@ViewBag.msg</div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="Login" class="btn btn-primary" />
+                    </div>
+                    <div>
+                        <a asp-action="Register">New User? Register</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,56 @@
+﻿@model AirlineReservationSystem.Models.Flight
+
+@{
+    ViewData["Title"] = "SearchFlight";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<h1>Search Flight</h1>
+<hr />
+<style>
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+
+    label {
+        color: white;
+        font: italic small-caps bold 12px/30px Georgia, serif;
+        font-size: larger;
+        border-color: black;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="searchFlight">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="From" class="control-label"></label>
+                <input asp-for="From" required class="form-control" />
+                <span asp-validation-for="From" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="To" class="control-label"></label>
+                <input asp-for="To" required class="form-control" />
+                <span asp-validation-for="To" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" type="date" required class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-light" asp-action="ReservedFlight">Back</a>
+</div>
+

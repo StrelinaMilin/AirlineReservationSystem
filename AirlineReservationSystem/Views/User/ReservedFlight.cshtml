@@ -1,0 +1,129 @@
+﻿@model IEnumerable<AirlineReservationSystem.Models.ReservedFlight>
+
+@{
+    ViewData["Title"] = "ReservedFlight";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+
+<h1>Reserved Flight</h1>
+
+@if (@ViewBag.msg != null)
+{
+    <script type="text/javascript">alert('@ViewBag.msg');</script>
+}
+<style>
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+    th {
+         background-color: #333333;
+         color:white;
+    }
+    td{
+        background-color:azure;
+        color:black;
+    }
+</style>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightName)
+               
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destination)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSeatsReserved)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DepatureDate)*@
+                <a class="btn-light" asp-action="ReservedFlight" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.DepatureDate)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepatureTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReturnDate)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Amount)*@
+                <a class="btn-light" asp-action="ReservedFlight" asp-route-sortOrder="@ViewData["AmountSortParam"]">@Html.DisplayNameFor(model => model.Amount)</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlightName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Destination)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalSeatsReserved)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepatureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepatureTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-action="TicketDetails" asp-route-id="@item.Tid">Details</a>
+                    <a class="btn btn-danger text-light" onclick="confirmation();" asp-action="CancelFlight" asp-route-id="@item.Tid" id="cancel">Cancel</a>
+
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+
+</table>
+<script>
+    function confirmation() {
+        var result = confirm("Do you want to cancel Reserved ticket?");
+        if (result == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>

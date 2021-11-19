@@ -1,0 +1,98 @@
+﻿@model AirlineReservationSystem.Models.Tblticket
+
+@{
+    ViewData["Title"] = "SelectFlight";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<h1>Select Flight</h1>
+@if (@ViewBag.msg != null)
+{
+    <script type="text/javascript">alert('@ViewBag.msg');</script>
+}
+
+<hr />
+<style>
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+
+    label {
+        color: white;
+        font: italic small-caps bold 12px/30px Georgia, serif;
+        font-size: larger;
+        border-color: black;
+    }
+</style>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SelectFlight">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+                    <label asp-for="Userid" hidden class="control-label"></label>
+                    <input asp-for="Userid" class="form-control" disabled hidden value=@ViewBag.Userid />
+                </div>
+                <div class="form-group">
+                    <label asp-for="FlightDetailsId" hidden class="control-label"></label>
+                    <input asp-for="FlightDetailsId" class="form-control" disabled hidden value=@ViewBag.FlightDetailsId />
+                </div>*@
+            <div class="form-group">
+                <label asp-for="Classtype" class="control-label"></label>
+                <select asp-for="Classtype" id="ctype" class="form-control">
+                    <option value=Economy>Economy</option>
+                    <option value=Business>Business</option>
+                </select>
+                <span asp-validation-for="Classtype" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="Type" id="type" class="form-control" onclick="func()">
+                    <option value=Oneway>Oneway</option>
+                    <option value=Return>Return</option>
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <script>
+                function func() {
+                    if (document.getElementById("type").value == "Return") {
+                        document.getElementById("return").style.display = "block";
+                        document.getElementById("returndate").setAttribute("required", "");
+                    }
+                    else {
+                        document.getElementById("return").style.display = "none";
+                        document.getElementById("returndate").removeAttribute("required");
+                    }
+                }
+
+
+            </script>
+            <div class="form-group" id="return" style="display:none">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                <input asp-for="ReturnDate" id="returndate" type="date" class="form-control" />
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalSeatsReserved" class="control-label"></label>
+                <input asp-for="TotalSeatsReserved" required id="seats" class="form-control" />
+                <span asp-validation-for="TotalSeatsReserved" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="TotalAmount" class="control-label"></label>
+                    <input asp-for="TotalAmount" id="amount" disabled class="form-control" />
+                    <span asp-validation-for="TotalAmount" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Next</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-dark" asp-action="FlightDetails">Back</a>
+</div>
+

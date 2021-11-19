@@ -1,0 +1,112 @@
+﻿@model IEnumerable<AirlineReservationSystem.Models.Ticket>
+
+@{
+    ViewData["Title"] = "PaymentSuccessfull";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<form>
+    <script>alert('Payment Successfull')</script>
+</form>
+<style>
+    th {
+        background-color: #333333;
+        color: white;
+    }
+
+    td {
+        background-color: azure;
+        color: black;
+    }
+
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+
+   
+</style>
+
+<h1>Ticket</h1>
+
+<div id="Ticket" style="background-color:blueviolet;border:double">
+    <ul>
+        <li class="text-light">
+            Flight Name : @ViewBag.FlightName
+        </li>
+        <li class="text-light">
+            Source : @ViewBag.Source
+        </li>
+        <li class="text-light">
+            Destination : @ViewBag.Destination
+        </li>
+        <li class="text-light">
+            Departure Date : @ViewBag.DepartureDate
+        </li>
+        <li class="text-light">
+            Departure Time : @ViewBag.DepartureTime
+        </li>
+        <li class="text-light">
+            Class Type : @ViewBag.ClassType
+        </li>
+        <li class="text-light">
+            Total Fare : @ViewBag.TotalFare
+        </li>
+    </ul>
+
+
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PassengerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.seatno)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Age)
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PassengerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.seatno)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<div>
+    <a id="printPDF" class="btn btn-light">DownloadTicket</a>
+</div>
+
+@section scripts{ 
+<script>
+    $("#printPDF").click(function () {
+        var element = document.getElementById('Ticket');
+        html2pdf().from(element).set({
+            margin: [30, 10, 5, 10],
+            pagebreak: { avoid: 'tr' },
+            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+        }).save()
+    });
+</script>
+}

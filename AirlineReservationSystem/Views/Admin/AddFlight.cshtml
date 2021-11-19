@@ -1,0 +1,59 @@
+﻿@model AirlineReservationSystem.Models.TblFlightMaster
+
+@{
+    ViewData["Title"] = "AddFlight";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Add Flight</h1>
+@if (@ViewBag.msg != null)
+{
+    <script type="text/javascript">alert('@ViewBag.msg');</script>
+}
+<style>
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+    label {
+        color:white;
+        font: italic small-caps bold 12px/30px Georgia, serif;
+        font-size:larger;
+        
+    }
+</style>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddFlight">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Fname" class="control-label"></label>
+                <input asp-for="Fname" class="form-control" />
+                <span asp-validation-for="Fname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EconomySeats" class="control-label"></label>
+                <input asp-for="EconomySeats" class="form-control" />
+                <span asp-validation-for="EconomySeats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusinessSeats" class="control-label"></label>
+                <input asp-for="BusinessSeats" class="form-control" />
+                <span asp-validation-for="BusinessSeats" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-dark" asp-action="DisplayFlight">Back</a>
+</div>
+

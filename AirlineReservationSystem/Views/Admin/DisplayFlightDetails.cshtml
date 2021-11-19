@@ -1,0 +1,133 @@
+﻿@model IEnumerable<AirlineReservationSystem.Models.FlightDetails>
+
+@{
+    ViewData["Title"] = "DisplayFlightDetails";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Flight Details</h1>
+
+@*<p>
+        <a asp-action="AddFlightDetails">Add Detail</a>
+    </p>*@
+@if (@ViewBag.msg != null)
+{
+    <script type="text/javascript">alert('@ViewBag.msg');</script>
+}
+
+<br />
+<br />
+@using (Html.BeginForm("DisplayFlightDetails", "Admin", FormMethod.Get))
+{
+    @Html.TextBox("searching")
+    <input class="btn-secondary" type="submit" value="search" />
+}
+<style>
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+
+    th {
+        background-color: #333333;
+        color: white;
+    }
+
+    td {
+        background-color: azure;
+        color: black;
+    }
+
+    body {
+        background-size: inherit;
+    }
+    }
+</style>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destination)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DepartureDate)*@
+                <a class="btn-light" asp-action="DisplayFlightDetails" asp-route-sortOrder="@ViewData["DateSortParm"]">@Html.DisplayNameFor(model => model.DepartureDate)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableEconomySeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EconomyClassFare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableBusinessSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BusinessClassFare)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="3" style="color:red">
+                    No Match Any Document
+                </td>
+            </tr>
+        }
+        else
+        {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlightName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Destination)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableEconomySeats)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EconomyClassFare)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableBusinessSeats)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BusinessClassFare)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-action="EditFlightDetails" asp-route-id="@item.Detailsid">Edit</a> |
+                    <a class="btn btn-danger text-light" asp-action="DeleteFlightDetails" asp-route-id="@item.Detailsid">Delete</a>
+                </td>
+            </tr>
+        }}
+    </tbody>
+</table>

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<AirlineReservationSystem.Models.TblFlightDetail>
+
+@{
+    ViewData["Title"] = "DisplayFlightDetails";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<h1>Flight Details</h1>
+@if (@ViewBag.msg != null)
+{
+    <script type="text/javascript">alert('@ViewBag.msg');</script>
+}
+<style>
+    h1 {
+        text-transform: uppercase;
+        color: #ffffff;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+    th {
+        background-color: #333333;
+        color: white;
+    }
+
+    td {
+        background-color: azure;
+        color: black;
+    }
+    body{
+        background-size:inherit;
+    }
+</style>
+<br />
+<p>
+    <a style="background-color:azure; float:right" asp-action="AddFlightDetails" asp-route-id="@ViewBag.Flightid">Add Detail</a>
+</p>
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destination)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableEconomySeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvailableBusinessSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EconomyclassFare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BusinessclassFare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepatureDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepatureTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Destination)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableEconomySeats)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableBusinessSeats)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EconomyclassFare)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BusinessclassFare)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepatureDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepatureTime)
+                </td>
+                <td>
+                    <a class="btn btn-outline-success" asp-action="GetTicketDetails" asp-route-id="@item.FlightDetailsId">ViewTickets</a> |
+                    <a class="btn btn-outline-primary" asp-action="EditFlightDetails" asp-route-id="@item.FlightDetailsId">Edit</a> |
+                    <a class="btn btn-danger text-light" asp-action="DeleteFlightDetails" asp-route-id="@item.FlightDetailsId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

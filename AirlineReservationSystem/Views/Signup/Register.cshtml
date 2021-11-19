@@ -1,0 +1,76 @@
+﻿@model AirlineReservationSystem.Models.TblUser
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+<style>
+    h1 {
+        text-transform: uppercase;
+        color: #000000;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-style: oblique;
+        text-shadow: 4px 2px #808080;
+    }
+
+    label {
+        color: #000000;
+        font-weight: bold;
+        font-size: x-large;
+        width: 150px;
+    }
+</style>
+<h1>Register</h1>
+
+<div style="background-color:white" class="text-danger">@ViewBag.msg</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emailid" class="control-label"></label>
+                <input asp-for="Emailid" type="email" class="form-control" />
+                <span asp-validation-for="Emailid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Confirmpassword" class="control-label"></label>
+                <input asp-for="Confirmpassword" class="form-control" />
+                <span asp-validation-for="Confirmpassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dateofbirth" class="control-label"></label>
+                <input asp-for="Dateofbirth" type="date" class="form-control" />
+                <span asp-validation-for="Dateofbirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phoneno" class="control-label"></label>
+                <input asp-for="Phoneno" class="form-control" />
+                <span asp-validation-for="Phoneno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
