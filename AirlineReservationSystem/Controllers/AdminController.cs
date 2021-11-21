@@ -170,7 +170,7 @@ namespace AirlineReservationSystem.Controllers
         public IActionResult EditFlightDetails(int id)
         {
             var fid = db.TblFlightDetails.Where(i => i.FlightDetailsId == id).Select(i => i.Flightid).FirstOrDefault();
-            ViewBag.Flightid = fid;
+            //ViewBag.Flightid = fid;
             TempData["fid"] = fid;
             TblFlightDetail tblFlightDetail = db.TblFlightDetails.Find(id);
             return View(tblFlightDetail);
